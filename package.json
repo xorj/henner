@@ -1,0 +1,36 @@
+{
+    "name": "henner",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "@quasar/extras": "^1.15.2",
+        "axios": "^0.27.2",
+        "quasar": "^2.7.7",
+        "vee-validate": "^4.6.7",
+        "vue": "^3.2.37",
+        "vue-router": "^4.1.5",
+        "vuex": "^4.0.2",
+        "yup": "^0.32.11"
+    },
+    "devDependencies": {
+        "@quasar/vite-plugin": "^1.1.1",
+        "@vitejs/plugin-vue": "^3.0.3",
+        "autoprefixer": "^10.4.8",
+        "eslint": "^8.23.0",
+        "eslint-config-prettier": "^8.5.0",
+        "eslint-plugin-vue": "^9.4.0",
+        "postcss": "^8.4.16",
+        "postcss-remove-declaration": "^1.0.0",
+        "prettier": "^2.7.1",
+        "sass": "^1.32.12",
+        "tailwind": "^4.0.0",
+        "tailwindcss": "^3.1.8",
+        "vite": "^3.0.9"
+    }
+}
