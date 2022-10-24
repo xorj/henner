@@ -64,7 +64,7 @@
         <p class="text-terceary text-">
           Novo por aqui?
           <router-link
-            to="/cadastrar"
+            to="/cadastro"
             class="underline underline-offset-4 text-primary"
             >Cadastre-se</router-link
           >
