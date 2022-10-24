@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white px-2 md:px-3 flex font-medium shadow-1">
+  <nav class="bg-white px-2 md:px-3 flex font-medium shadow-1 h-16">
     <Logo />
     <div class="ml-auto flex items-center">
       <LinksProducts />
