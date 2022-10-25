@@ -223,7 +223,7 @@ const onSubmit = (values) => {
       $q.notify({
         icon: "check",
         color: "positive",
-        message: "Você logou com sucesso!",
+        message: "Você se cadastrou com sucesso!",
         timeout: 1000,
       });
       router.push("Login");
