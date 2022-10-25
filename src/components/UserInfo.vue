@@ -25,7 +25,7 @@
     <q-list>
       <q-item clickable v-close-popup>
         <router-link
-          to="/produtos"
+          to="/"
           class="text-dark flex items-center justify-center px-4 h-full w-full"
         >
           <q-item-label>

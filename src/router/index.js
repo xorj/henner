@@ -1,15 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [{
-        path: "/",
-        name: "Página Inicial",
-        component: () =>
-            import ("../views/PaginaInicial.vue"),
-        meta: {
-            requiresAuth: false,
-        },
-    },
-    {
         path: "/cadastro",
         name: "Cadastro",
         component: () =>
@@ -40,7 +31,7 @@ const routes = [{
         },
     },
     {
-        path: "/produtos",
+        path: "/",
         name: "Produtos",
         component: () =>
             import ("../views/Produtos.vue"),
@@ -57,14 +48,14 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !localStorage.getItem("TOKEN")) {
+    if (to.meta.requiresAuth && !localStorage.getItem("token")) {
         next({
             name: "Login",
             replace: true,
         });
-    } else if (to.meta.redirectIfLoggedIn && localStorage.getItem("TOKEN")) {
+    } else if (to.meta.redirectIfLoggedIn && localStorage.getItem("token")) {
         next({
-            name: "Página Inicial",
+            name: "Produtos",
             replace: true,
         });
     } else {

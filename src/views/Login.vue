@@ -101,7 +101,7 @@ function onSubmitLogin(values) {
         message: "Login realizado com sucesso!",
         timeout: 1000,
       });
-      router.push("Produtos");
+      router.push({name: "Produtos"});
     })
     .catch((error) => {
       let errorData = error.response?.data;

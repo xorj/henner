@@ -1,5 +1,5 @@
 <template>
-  <router-link to="/produtos" class="text-gray-800 p-2">
+  <router-link to="/" class="text-gray-800 p-2">
     <div class="flex items-center">
       <img src="@/assets/cart-icon.svg" alt="logo" class="h-7 w-7 mr-2" />
       <div class="flex flex-col items-center">
