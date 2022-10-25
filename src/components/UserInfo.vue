@@ -59,7 +59,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import { useQuasar } from "quasar";
@@ -67,13 +67,13 @@ import { useQuasar } from "quasar";
 const $q = useQuasar();
 const router = useRouter();
 const store = useStore();
-const userLogged = ref(!!store.state.user.token);
+const userLogged = computed(() => !!store.state.user.token);
 
 const logout = () => {
   store.dispatch("logout").then(() => {
     $q.notify({
       icon: "check",
-      color: "warning",
+      color: "positive",
       message: "Você saiu do sistema",
       timeout: 1000,
     });
