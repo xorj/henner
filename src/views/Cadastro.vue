@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col my-20 mx-48">
+  <main class="flex flex-col my-20 mx-10 md:mx-48">
     <h2 class="font-bold text-3xl text-dark mb-4">CRIE SUA CONTA</h2>
     <Form
       :validation-schema="dataSchemaCadastro"
@@ -10,6 +10,7 @@
         <div class="col-span-6">
           <Field name="nome" v-slot="{ errorMessage, value, field }">
             <q-input
+              autofocus
               type="text"
               placeholder="Nome Completo"
               outlined
@@ -83,6 +84,7 @@
           <Field name="password" v-slot="{ errorMessage, value, field }">
             <q-input
               outlined
+              autocomplete="new-password"
               label="Defina sua senha"
               v-bind="field"
               :model-value="value"
@@ -109,6 +111,7 @@
             <q-input
               outlined
               v-bind="field"
+              autocomplete="new-password"
               label="Confirme sua senha"
               :model-value="value"
               :type="hidePassword ? 'password' : 'text'"
@@ -165,12 +168,16 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 import { Field, Form } from "vee-validate";
 import * as yup from "yup";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
+const $q = useQuasar();
+const store = useStore();
 const hidePassword = ref(true);
 
 const dataSchemaCadastro = yup.object({
@@ -210,6 +217,32 @@ const dataSchemaCadastro = yup.object({
 });
 
 const onSubmit = (values) => {
-  console.log(values);
+  store
+    .dispatch("cadastro", values)
+    .then(() => {
+      $q.notify({
+        icon: "check",
+        color: "positive",
+        message: "Você logou com sucesso!",
+        timeout: 1000,
+      });
+      router.push("Login");
+    })
+    .catch((error) => {
+      let errorData = error.response?.data;
+      if (errorData) {
+        let errors = Object.entries(errorData).map(([key, value]) => {
+          return value;
+        });
+        errors.forEach((error) => {
+          $q.notify({
+            icon: "error",
+            color: "negative",
+            message: error,
+            timeout: 1000,
+          });
+        });
+      }
+    });
 };
 </script>

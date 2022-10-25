@@ -1,26 +1,26 @@
 import axios from "@/axios";
 
 async function postLogin(options) {
-    const { username, password } = options;
-    const response = await axios.post("/Credentials/Login", {
-        username,
+    const { email, password } = options;
+    const response = await axios.post("/api/token", {
+        email,
         password,
     });
     return response;
 }
 
 async function postUser(options) {
-    const response = await axios.post("User/CreatePerson", {
-        fullName: options.fullName,
+    const { nome } = options;
+    let primeiro_nome = nome.split(" ")[0],
+        ultimo_nome = nome.split(" ").slice(1).join(" ");
+    const response = await axios.post("cliente/", {
+        primeiro_nome,
+        ultimo_nome,
+        data_nascimento: options.data_nascimento,
+        telefone: options.telefone,
         cpf: options.cpf,
-        birthDate: options.birthPlace,
-        primaryPhone: options.primaryPhone,
-        secondaryPhone: options.secondaryPhone,
-        user: {
-            email: options.email,
-            password: options.password,
-            username: options.username || generateUsername(options.fullName),
-        },
+        email: options.email,
+        password: options.password,
     });
     return response.data;
 }

@@ -1,5 +1,6 @@
 <template>
   <q-btn-dropdown
+    v-if="userLogged"
     no-caps
     flat
     :ripple="false"
@@ -38,9 +39,49 @@
           </q-item-label>
         </router-link>
       </q-item>
+      <q-item clickable v-close-popup>
+        <q-btn
+          flat
+          no-caps
+          color="primary"
+          class="text-capitalize w-full text-right"
+          label="Sair"
+          @click="logout"
+        />
+      </q-item>
     </q-list>
   </q-btn-dropdown>
+  <div v-else class="flex items-center h-full">
+    <router-link to="/login" class="text-dark flex items-center px-4 h-full">
+      <q-icon name="login" color="primary" size="1.5rem" class="mr-1" />
+      Login
+    </router-link>
+  </div>
 </template>
+<script setup>
+import { ref } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+import { useQuasar } from "quasar";
+
+const $q = useQuasar();
+const router = useRouter();
+const store = useStore();
+const userLogged = ref(!!store.state.user.token);
+
+const logout = () => {
+  store.dispatch("logout").then(() => {
+    $q.notify({
+      icon: "check",
+      color: "warning",
+      message: "Você saiu do sistema",
+      timeout: 1000,
+    });
+  });
+
+  router.push("Login");
+};
+</script>
 <style>
 .menu-top-margin {
   top: 65px !important;
