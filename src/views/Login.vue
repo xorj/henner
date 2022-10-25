@@ -44,15 +44,6 @@
               </template>
             </q-input>
           </Field>
-          <div class="flex justify-end w-full">
-            <router-link to="/esqueceu-senha">
-              <p
-                class="font-light underline underline-offset-4 text-terceary text-right"
-              >
-                Esqueceu a senha?
-              </p>
-            </router-link>
-          </div>
           <q-btn
             class="w-full mt-4 p-2"
             type="submit"
