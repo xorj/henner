@@ -86,9 +86,9 @@
             <img :src="produto.thumbnail" class="h-48" />
             <q-card-section class="flex flex-col">
               <h4 class="font-bold mb-1">
-                {{ produto.marca }}
+                {{ produto.nome }}
               </h4>
-              <span class="font-normal mb-1">{{ produto.nome }}</span>
+              <span class="font-normal mb-1">{{ produto.marca }}</span>
               <p class="font-extrabold text-primary mb-1">
                 R$ {{ produto.preco }}
               </p>
@@ -124,7 +124,7 @@ let filtros = ref({
 let optionsCategoria = [
   { value: 1, label: "Smartphones" },
   { value: 2, label: "Beleza" },
-  { value: 3, label: "Computadores e Imformática" },
+  { value: 3, label: "Computadores e Informática" },
   { value: 4, label: "Alimentos e Bebidas" },
   { value: 5, label: "Decoração para Casa" },
 ];
