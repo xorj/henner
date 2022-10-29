@@ -47,14 +47,29 @@ export default {
             localStorage.removeItem("token");
             commit("SET_TOKEN", "");
         },
-
+        async listarCategorias({ commit }, payload) {
+            try {
+                const response = await productServices.getCategories();
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
         async listarProdutos({ commit }, payload) {
             try {
                 const filtros = {
-                    search: payload?.search || "",
-                    categoria: payload?.categoria || "",
+                    search: payload.search || "",
+                    categoria: payload.categoria || "",
                 }
                 const response = await productServices.getProducts(filtros);
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async detalhesProdutos({ commit }, payload) {
+            try {
+                const response = await productServices.getProduct(payload);
                 return response;
             } catch (error) {
                 throw error;

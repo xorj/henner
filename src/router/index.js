@@ -40,6 +40,16 @@ const routes = [{
             redirectIfLoggedIn: false,
         },
     },
+    {
+        path: "/produto/:id",
+        name: "Detalhes do Produto",
+        component: () =>
+            import ("../views/DetalhesProduto.vue"),
+        meta: {
+            requiresAuth: false,
+            redirectIfLoggedIn: false,
+        },
+    },
 ];
 
 const router = createRouter({
