@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-12 mx-32 my-12 gap-6">
     <q-form
-      @submit="handleFilter"
+      @submit="listProducts"
       class="col-span-4 border-2 p-4 flex flex-col mb-auto rounded"
     >
       <p class="text-dark font-bold">Preço</p>
@@ -83,7 +83,7 @@
         </div>
         <div v-else class="grid grid-cols-12 gap-6 col-span-12">
           <q-card v-for="produto in produtos" class="col-span-4 text-dark">
-            <img :src="produto.thumbnail" class="h-48" />
+            <q-img :src="produto.thumbnail" class="h-48" />
             <q-card-section class="flex flex-col">
               <h4 class="font-bold mb-1">
                 {{ produto.nome }}
@@ -93,7 +93,7 @@
                 R$ {{ produto.preco }}
               </p>
               <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
+                <q-btn color="primary" @click="goToDetalhes(produto.id)"> DETALHES </q-btn>
               </div>
             </q-card-section>
           </q-card>
@@ -108,12 +108,16 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const store = useStore();
+
 let searchFieldValue = ref("");
 let currentPage = ref(1);
 let searchText = ref("");
 let loading = ref(false);
 
-const store = useStore();
 
 let filtros = ref({
   de: "",
@@ -121,23 +125,28 @@ let filtros = ref({
   categoria: "",
 });
 
-let optionsCategoria = [
-  { value: 1, label: "Smartphones" },
-  { value: 2, label: "Beleza" },
-  { value: 3, label: "Computadores e Informática" },
-  { value: 4, label: "Alimentos e Bebidas" },
-  { value: 5, label: "Decoração para Casa" },
-];
+let optionsCategoria = ref([]);
 
 let produtos = ref([]);
 
 onMounted(async () => {
   loading.value = true;
   listProducts();
+  await loadCategories();
   loading.value = false;
 });
 
-const getProducts = (search, categoria) => {
+const loadCategories = async () => {
+  let categorias = await store.dispatch("listarCategorias");
+  optionsCategoria.value = categorias.map((categoria) => {
+    return {
+      label: categoria.nome,
+      value: categoria.id,
+    };
+  });
+};
+
+const getProducts = async (search, categoria) => {
   let produtos = store.dispatch("listarProdutos", { search, categoria });
   return produtos;
 };
@@ -178,7 +187,8 @@ const handleSearch = () => {
   listProducts();
 };
 
-const handleFilter = () => {
-  listProducts();
-};
+const goToDetalhes = (id) => {
+  router.push({ path: `/produto/${id}` })
+}
+
 </script>
