@@ -79,7 +79,7 @@ const logout = () => {
     });
   });
 
-  router.push("Login");
+  router.push({ name: "Login" });
 };
 </script>
 <style>

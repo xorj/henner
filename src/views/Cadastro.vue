@@ -226,7 +226,7 @@ const onSubmit = (values) => {
         message: "Você se cadastrou com sucesso!",
         timeout: 1000,
       });
-      router.push("Login");
+      router.push({ name: "Login" });
     })
     .catch((error) => {
       let errorData = error.response?.data;
