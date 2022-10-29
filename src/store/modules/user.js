@@ -1,4 +1,5 @@
 import authServices from "@/services/authServices";
+import productServices from "@/services/productsServices";
 
 export default {
     state: () => ({
@@ -46,5 +47,18 @@ export default {
             localStorage.removeItem("token");
             commit("SET_TOKEN", "");
         },
+
+        async listarProdutos({ commit }, payload) {
+            try {
+                const filtros = {
+                    search: payload?.search || "",
+                    categoria: payload?.categoria || "",
+                }
+                const response = await productServices.getProducts(filtros);
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        }
     },
 };

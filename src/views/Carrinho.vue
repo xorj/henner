@@ -10,21 +10,22 @@
       <q-card v-for="item in itemsCarrinho" class="w-full" flat bordered>
         <q-card-section horizontal>
           <q-img class="col-3" src="https://cdn.quasar.dev/img/parallax2.jpg" />
-
           <q-card-section class="col-5">
-            <div class="flex items-center">
+            <div class="flex items-center mb-2">
               <p class="text-terceary font-bold mr-2">{{ item.nome }}</p>
-              <p class="text-primary font-semibold">{{ item.preco }}</p>
+              <p class="text-primary font-semibold">R$ {{ item.preco }}</p>
             </div>
-            <div>
-              <p class="font-bold text-secondary">Em estoque</p>
-              <q-select
+            <div class="flex items-center">
+              <p class="mr-2 font-bold text-secondary">Em estoque</p>
+              <p class="mr-2 font-regular">Quantidade</p>
+                <q-select
+                class="w-24"
                 v-model="item.quantidadeSelecionada"
-                label="2"
-                :options="
-                    Array.from({ length: item.quantidade }, (_, i) => i + 1)
-                "
-              />
+                outlined
+                dropdown-icon="expand_more"
+                dense
+                :options="getItemOptions(item.quantidadeDisponivel)"
+              />              
             </div>
           </q-card-section>
           <q-card-section class="flex content-end col-4">
@@ -57,7 +58,14 @@ import { ref } from "vue";
 
 let itemsCarrinho = ref([
   {
-    nome: "Camiseta Cats Division",
+    nome: "Camiseta Dogs Division",
+    preco: 119.39,
+    quantidadeDisponivel: 3,
+    quantidadeSelecionada: 1,
+    imagem: "https://cdn.quasar.dev/img/parallax2.jpg",
+  },
+  {
+    nome: "Camiseta Frogs Division",
     preco: 119.39,
     quantidadeDisponivel: 2,
     quantidadeSelecionada: 1,
@@ -66,23 +74,18 @@ let itemsCarrinho = ref([
   {
     nome: "Camiseta Cats Division",
     preco: 119.39,
-    quantidadeDisponivel: 2,
-    quantidadeSelecionada: 1,
-    imagem: "https://cdn.quasar.dev/img/parallax2.jpg",
-  },
-  {
-    nome: "Camiseta Cats Division",
-    preco: 119.39,
-    quantidadeDisponivel: 2,
+    quantidadeDisponivel: 5,
     quantidadeSelecionada: 1,
     imagem: "https://cdn.quasar.dev/img/parallax2.jpg",
   },
 ]);
 
 function getItemOptions(disponivel) {
-  return Array.from({ length: disponivel }, (_, i) => i + 1).map((i) => ({
-    text: i,
-    value: i,
-  }));
+    let options = [];
+    for (let i = 1; i <= disponivel; i++) {
+      options.push(i);
+    }
+
+  return options;
 }
 </script>

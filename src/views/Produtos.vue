@@ -13,6 +13,7 @@
           dense
           mask="#,##"
           fill-mask="0"
+          unmasked-value
           reverse-fill-mask
         >
           <template v-slot:prepend>
@@ -26,6 +27,7 @@
           dense
           mask="#,##"
           fill-mask="0"
+          unmasked-value
           reverse-fill-mask
         >
           <template v-slot:prepend>
@@ -38,17 +40,20 @@
         name="categoria"
         v-model="filtros.categoria"
         :options="optionsCategoria"
-        type="checkbox"
         color="primary"
-        @change="
-          () => {
-            console.log(filtros.categoria);
-          }
-        "
         inline
-      ></q-option-group>
-      <div class="flex justify-end">
-        <q-btn color="primary" type="submit"> Filtrar </q-btn>
+      >
+      </q-option-group>
+      <div class="flex justify-end mt-3">
+        <q-btn
+          icon="delete"
+          flat
+          round
+          color="primary"
+          class="mr-2"
+          @click="resetFilters"
+        />
+        <q-btn color="primary" type="submit">Filtrar</q-btn>
       </div>
     </q-form>
     <div class="col-span-8">
@@ -77,173 +82,95 @@
           <q-spinner color="primary" size="3em" :thickness="10" />
         </div>
         <div v-else class="grid grid-cols-12 gap-6 col-span-12">
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
+          <q-card v-for="produto in produtos" class="col-span-4 text-dark">
+            <img :src="produto.thumbnail" class="h-48" />
             <q-card-section class="flex flex-col">
               <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
+                {{ produto.marca }}
               </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
-              <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-card-section class="flex flex-col">
-              <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
-              </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
-              <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-card-section class="flex flex-col">
-              <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
-              </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
-              <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-card-section class="flex flex-col">
-              <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
-              </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
-              <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-card-section class="flex flex-col">
-              <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
-              </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
-              <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-card-section class="flex flex-col">
-              <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
-              </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
-              <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-card-section class="flex flex-col">
-              <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
-              </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
-              <div class="flex justify-end">
-                <q-btn color="primary" class=""> DETALHES </q-btn>
-              </div>
-            </q-card-section>
-          </q-card>
-          <q-card class="col-span-4 text-dark">
-            <img src="https://cdn.quasar.dev/img/mountains.jpg" />
-            <q-card-section class="flex flex-col">
-              <h4 class="font-bold mb-1">
-                SportWear <span class="font-normal">Camisa Esportiva</span>
-              </h4>
-              <div class="flex items-center mb-1">
-                <q-icon name="star" class="mr-1" color="info" />
-                <p class="text-sm">4,3 (121)</p>
-              </div>
-              <p class="font-extrabold text-primary mb-1">R$ 110,39</p>
+              <span class="font-normal mb-1">{{ produto.nome }}</span>
+              <p class="font-extrabold text-primary mb-1">
+                R$ {{ produto.preco }}
+              </p>
               <div class="flex justify-end">
                 <q-btn color="primary" class=""> DETALHES </q-btn>
               </div>
             </q-card-section>
           </q-card>
         </div>
-        <div v-if="!loading" class="flex flex-center col-span-12 my-4">
+        <!-- <div v-if="!loading" class="flex flex-center col-span-12 my-4">
           <q-pagination v-model="currentPage" :max="5" direction-links />
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
 let searchFieldValue = ref("");
 let currentPage = ref(1);
 let searchText = ref("");
 let loading = ref(false);
 
+const store = useStore();
+
 let filtros = ref({
   de: "",
   ate: "",
-  categoria: [],
+  categoria: "",
 });
+
 let optionsCategoria = [
-  { label: "Casa", value: "casa" },
-  { label: "Computadores e Imformática", value: "computadores_informativa" },
-  { label: "Livros", value: "livros" },
+  { value: 1, label: "Smartphones" },
+  { value: 2, label: "Beleza" },
+  { value: 3, label: "Computadores e Imformática" },
+  { value: 4, label: "Alimentos e Bebidas" },
+  { value: 5, label: "Decoração para Casa" },
 ];
 
-const handleSearch = () => {
+let produtos = ref([]);
+
+onMounted(async () => {
   loading.value = true;
-  setTimeout(() => {
-    searchText.value = searchFieldValue.value;
+  listProducts();
+  loading.value = false;
+});
+
+const getProducts = (search, categoria) => {
+  let produtos = store.dispatch("listarProdutos", { search, categoria });
+  return produtos;
+};
+
+const listProducts = () => {
+  loading.value = true;
+  getProducts(searchText.value, filtros.value.categoria).then((response) => {
+    let filteredProducts = response.filter((produto) => {
+      return (
+        produto.preco >= +filtros.value.de/100 &&
+        produto.preco <= +filtros.value.ate/100
+      ) || filtros.value.de == "" || filtros.value.ate == "";
+    });
+    produtos.value = filteredProducts;
     loading.value = false;
-  }, 1000);
+  });
+};
+
+const resetFilters = () => {
+  filtros.value = {
+    de: "",
+    ate: "",
+    categoria: "",
+  };
+  listProducts();
+};
+
+const handleSearch = () => {
+  searchText.value = searchFieldValue.value;
+  listProducts();
 };
 
 const handleFilter = () => {
-  loading.value = true;
-  console.log(filtros.value)
-  setTimeout(() => {
-    loading.value = false;
-  }, 1000);
+  listProducts();
 };
 </script>
