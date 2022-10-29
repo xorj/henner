@@ -61,7 +61,9 @@
 import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
+import { useQuasar } from "quasar";
 
+const $q = useQuasar();
 const route = useRoute();
 const store = useStore();
 
@@ -69,7 +71,7 @@ let produto = ref({});
 let loading = ref(true);
 let quantidadeCarrinho = ref(0);
 const id = route.params.id;
-const logado = store.state.user.token;
+const logado = computed(() => !!store.state.user.token);
 
 onMounted(async () => {
   loading.value = true;
@@ -86,9 +88,26 @@ function optionsQuantidade(estoque) {
 }
 
 function adicionarCarrinho() {
-  store.dispatch("adicionarItemAoCarrinho", {
-    produto_id: id,
-    quantidade: quantidadeCarrinho.value,
-  });
+  store
+    .dispatch("adicionarItemAoCarrinho", {
+      produto_id: id,
+      quantidade: quantidadeCarrinho.value,
+    })
+    .then(() => {
+      $q.notify({
+        icon: "add_shopping_cart",
+        color: "positive",
+        message: `Você adicionou ${quantidadeCarrinho.value } ${
+          quantidadeCarrinho.value > 1 ? "itens" : "item"
+        } ao carrinho`,
+        timeout: 1000,
+      });
+    }).catch(() => {
+      $q.notify({
+        icon: "warning",
+        color: "negative",
+        message: `Não foi possível adicionar o item ao carrinho`,
+        timeout: 1000
+    })});
 }
 </script>
