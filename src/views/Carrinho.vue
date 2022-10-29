@@ -24,7 +24,7 @@
               <p class="text-primary font-semibold">R$ {{ item.produto.preco }}</p>
             </div>
             <div class="flex items-center">
-              <p :class="{'mr-2': true, 'font-bold': true, 'text-secondary':  (item.produto.estoque - item.quantidade >= 0), 'text-negative': (item.produto.estoque - item.quantidade < 0)}">{{item.produto.estoque - item.quantidade >= 0 ? 'Em estoque' : 'Sem estoque'}}</p>
+              <p :class="{'w-full': true, 'mb-3': true, 'font-bold': true, 'text-secondary':  (item.produto.estoque - item.quantidade >= 0), 'text-negative': (item.produto.estoque - item.quantidade < 0)}">{{item.produto.estoque - item.quantidade >= 0 ? 'Em estoque' : 'Sem estoque'}}</p>
               <p class="mr-2 font-regular">Quantidade</p>
               <q-select
                 class="w-24"
@@ -88,7 +88,7 @@ let valorTotal = computed(() => {
     total += item.produto.preco * item.quantidade;
   });
 
-  return total;
+  return total.toFixed(2);
 });
 
 let numItems = computed(() => {
