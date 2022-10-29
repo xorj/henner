@@ -146,10 +146,18 @@ const listProducts = () => {
   loading.value = true;
   getProducts(searchText.value, filtros.value.categoria).then((response) => {
     let filteredProducts = response.filter((produto) => {
-      return (
-        produto.preco >= +filtros.value.de/100 &&
-        produto.preco <= +filtros.value.ate/100
-      ) || filtros.value.de == "" || filtros.value.ate == "";
+      if (filtros.value.de && filtros.value.ate) {
+        return (
+          produto.preco >= filtros.value.de/100 &&
+          produto.preco <= filtros.value.ate/100
+        );
+      } else if (filtros.value.de) {
+        return produto.preco >= filtros.value.de/100;
+      } else if (filtros.value.ate) {
+        return produto.preco <= filtros.value.ate/100;
+      } else {
+        return true;
+      }
     });
     produtos.value = filteredProducts;
     loading.value = false;
