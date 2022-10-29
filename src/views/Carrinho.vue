@@ -7,7 +7,7 @@
       </p>
     </div>
     <div class="col-span-8 flex flex-column">
-      <q-card v-for="item in itemsCarrinho" class="w-full" flat bordered>
+      <q-card v-for="item in itemsCarrinho" class="w-full mb-4" flat bordered>
         <q-card-section horizontal>
           <q-img class="col-3" src="https://cdn.quasar.dev/img/parallax2.jpg" />
           <q-card-section class="col-5">
@@ -18,14 +18,14 @@
             <div class="flex items-center">
               <p class="mr-2 font-bold text-secondary">Em estoque</p>
               <p class="mr-2 font-regular">Quantidade</p>
-                <q-select
+              <q-select
                 class="w-24"
                 v-model="item.quantidadeSelecionada"
                 outlined
                 dropdown-icon="expand_more"
                 dense
                 :options="getItemOptions(item.quantidadeDisponivel)"
-              />              
+              />
             </div>
           </q-card-section>
           <q-card-section class="flex content-end col-4">
@@ -38,17 +38,20 @@
         </q-card-section>
       </q-card>
     </div>
-    <div class="grid col-span-4 border p-4 rounded gap-y-4">
-      <p class="text-xl">
-        Valor total do pedido:
-        <span class="text-primary font-bold">R$ 120</span>
-      </p>
-      <p class="text-lg">
-        Número de items: <span class="text-primary font-bold">3</span>
-      </p>
-      <q-btn color="primary" class="w-full">
-        <q-icon name="shopping_cart" class="mr-2" />
-        Fechar Pedido
+    <div class="col-span-4 border p-4 rounded h-min">
+      <div class="mb-3">
+        <p class="text-lg">
+          Valor total do pedido:
+          <span class="text-primary font-bold">R$ 120</span>
+        </p>
+      </div>
+      <div class="mb-3">
+        <p class="text-base">
+          Número de items: <span class="text-primary font-bold">3</span>
+        </p>
+      </div>
+      <q-btn icon="shopping_cart" color="primary" class="w-full h-10">
+        FECHAR PEDIDO
       </q-btn>
     </div>
   </main>
@@ -81,10 +84,10 @@ let itemsCarrinho = ref([
 ]);
 
 function getItemOptions(disponivel) {
-    let options = [];
-    for (let i = 1; i <= disponivel; i++) {
-      options.push(i);
-    }
+  let options = [];
+  for (let i = 1; i <= disponivel; i++) {
+    options.push(i);
+  }
 
   return options;
 }
