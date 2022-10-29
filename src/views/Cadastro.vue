@@ -185,7 +185,7 @@ const dataSchemaCadastro = yup.object({
     .string()
     .required("Nome é obrigatório")
     .min(10, "Nome tem que ter no mínimo 10 caracteres")
-    .max(25, "Nome tem que ter no mínimo 25 caracteres"),
+    .max(50, "Nome tem que ter no máximo 50 caracteres"),
   cpf: yup.string().length(11, "CPF incompleto").required("Campo obrigatório"),
   data_nascimento: yup.string().required("Data de nascimento é obrigatório"),
   telefone: yup
