@@ -1,5 +1,6 @@
 import authServices from "@/services/authServices";
 import productServices from "@/services/productsServices";
+import cartServices from "@/services/cartServices";
 
 export default {
     state: () => ({
@@ -70,6 +71,25 @@ export default {
         async detalhesProdutos({ commit }, payload) {
             try {
                 const response = await productServices.getProduct(payload);
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async pegarCarrinhoUsuario({ commit }) {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await cartServices.getCart({ token });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async adicionarItemAoCarrinho({ commit }, payload) {
+            try {
+                const token = localStorage.getItem("token");
+                const { produto_id, quantidade } = payload;
+                const response = await cartServices.addProductToCart({ token, produto_id, quantidade });
                 return response;
             } catch (error) {
                 throw error;

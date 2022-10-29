@@ -34,7 +34,8 @@
           class="mt-12 w-full"
           color="primary"
           icon="shopping_cart"
-          :disable="quantidadeCarrinho == 0"
+          :disable="quantidadeCarrinho == 0 || !logado"
+          @click="adicionarCarrinho"
         >
           ADICIONAR AO CARRINHO
         </q-btn>
@@ -68,6 +69,7 @@ let produto = ref({});
 let loading = ref(true);
 let quantidadeCarrinho = ref(0);
 const id = route.params.id;
+const logado = store.state.user.token;
 
 onMounted(async () => {
   loading.value = true;
@@ -81,5 +83,12 @@ function optionsQuantidade(estoque) {
     options.push(i);
   }
   return options;
+}
+
+function adicionarCarrinho() {
+  store.dispatch("adicionarItemAoCarrinho", {
+    produto_id: id,
+    quantidade: quantidadeCarrinho.value,
+  });
 }
 </script>

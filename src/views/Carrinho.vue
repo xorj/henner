@@ -1,5 +1,8 @@
 <template>
-  <main class="grid grid-cols-12 mx-20 my-12 gap-4">
+  <div v-if="loading" class="flex justify-center w-full mt-12">
+        <q-spinner size="5em" :thickness="5" color="primary" />
+      </div>
+  <main v-else class="grid grid-cols-12 mx-20 my-12 gap-4">
     <div class="col-span-12">
       <h4 class="uppercase text-2xl font-semibold">MEU CARRINHO</h4>
       <p class="underline text-terceary text-sm cursor-pointer">
@@ -7,24 +10,29 @@
       </p>
     </div>
     <div class="col-span-8 flex flex-column">
-      <q-card v-for="item in itemsCarrinho" class="w-full mb-4" flat bordered>
+      <q-card
+        v-for="item in itemsCarrinho"
+        class="w-full mb-4"
+        flat
+        bordered
+      >
         <q-card-section horizontal>
-          <q-img class="col-3" src="https://cdn.quasar.dev/img/parallax2.jpg" />
+          <q-img class="col-3" :src="item.produto.thumbnail" :ratio="1/2" style="height: 150px"/>
           <q-card-section class="col-5">
             <div class="flex items-center mb-2">
-              <p class="text-terceary font-bold mr-2">{{ item.nome }}</p>
-              <p class="text-primary font-semibold">R$ {{ item.preco }}</p>
+              <p class="text-terceary font-bold mr-2">{{ item.produto.nome }}</p>
+              <p class="text-primary font-semibold">R$ {{ item.produto.preco }}</p>
             </div>
             <div class="flex items-center">
-              <p class="mr-2 font-bold text-secondary">Em estoque</p>
+              <p :class="{'mr-2': true, 'font-bold': true, 'text-secondary':  (item.produto.estoque - item.quantidade >= 0), 'text-negative': (item.produto.estoque - item.quantidade < 0)}">{{item.produto.estoque - item.quantidade >= 0 ? 'Em estoque' : 'Sem estoque'}}</p>
               <p class="mr-2 font-regular">Quantidade</p>
               <q-select
                 class="w-24"
-                v-model="item.quantidadeSelecionada"
+                v-model="item.quantidade"
                 outlined
                 dropdown-icon="expand_more"
                 dense
-                :options="getItemOptions(item.quantidadeDisponivel)"
+                :options="getItemOptions(item.produto.estoque)"
               />
             </div>
           </q-card-section>
@@ -42,12 +50,12 @@
       <div class="mb-3">
         <p class="text-lg">
           Valor total do pedido:
-          <span class="text-primary font-bold">R$ 120</span>
+          <span class="text-primary font-bold">R$ {{valorTotal}}</span>
         </p>
       </div>
       <div class="mb-3">
         <p class="text-base">
-          Número de items: <span class="text-primary font-bold">3</span>
+          Número de items: <span class="text-primary font-bold">{{numItems}}</span>
         </p>
       </div>
       <q-btn icon="shopping_cart" color="primary" class="w-full h-10">
@@ -57,31 +65,13 @@
   </main>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, computed } from "vue";
+import { useStore } from "vuex";
 
-let itemsCarrinho = ref([
-  {
-    nome: "Camiseta Dogs Division",
-    preco: 119.39,
-    quantidadeDisponivel: 3,
-    quantidadeSelecionada: 1,
-    imagem: "https://cdn.quasar.dev/img/parallax2.jpg",
-  },
-  {
-    nome: "Camiseta Frogs Division",
-    preco: 119.39,
-    quantidadeDisponivel: 2,
-    quantidadeSelecionada: 1,
-    imagem: "https://cdn.quasar.dev/img/parallax2.jpg",
-  },
-  {
-    nome: "Camiseta Cats Division",
-    preco: 119.39,
-    quantidadeDisponivel: 5,
-    quantidadeSelecionada: 1,
-    imagem: "https://cdn.quasar.dev/img/parallax2.jpg",
-  },
-]);
+const store = useStore();
+
+let itemsCarrinho = ref([]);
+let loading = ref(true);
 
 function getItemOptions(disponivel) {
   let options = [];
@@ -91,4 +81,28 @@ function getItemOptions(disponivel) {
 
   return options;
 }
+
+let valorTotal = computed(() => {
+  let total = 0;
+  itemsCarrinho.value.forEach((item) => {
+    total += item.produto.preco * item.quantidade;
+  });
+
+  return total;
+});
+
+let numItems = computed(() => {
+  let total = 0;
+  itemsCarrinho.value.forEach((item) => {
+    total += item.quantidade;
+  });
+  return total;
+});
+
+
+onMounted(async () => {
+  loading.value = true;
+  itemsCarrinho.value = await store.dispatch("pegarCarrinhoUsuario");
+  loading.value = false;
+});
 </script>
