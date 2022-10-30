@@ -5,7 +5,7 @@
     </div>
     <div class="grid grid-cols-12 gap-8">
       <div class="col-span-6">
-        <q-img :src="produto?.thumbnail" ratio="1" height="294px" />
+        <q-img :src="produto?.thumbnail" ratio="1" height="305px" />
       </div>
       <div class="col-span-6 border rounded p-4 h-min">
         <p class="text-2xl font-bold">
@@ -18,7 +18,15 @@
           R$ {{ produto?.preco }}
         </p>
         <p class="text-terceary mt-6">Antes de comprar escolha a quantidade</p>
-        <p class="text-secondary font-bold">Em estoque</p>
+        <p
+          class="font-bold mb-3"
+          :class="{
+            'text-negative': produto?.estoque <= 0,
+            'text-secondary': produto?.estoque > 0,
+          }"
+        >
+          {{ produto?.estoque > 0 ? "Em estoque" : "Sem estoque" }}
+        </p>
         <div class="flex items-center">
           <p class="mr-2">Quantidade</p>
           <q-select
@@ -97,17 +105,19 @@ function adicionarCarrinho() {
       $q.notify({
         icon: "add_shopping_cart",
         color: "positive",
-        message: `Você adicionou ${quantidadeCarrinho.value } ${
+        message: `Você adicionou ${quantidadeCarrinho.value} ${
           quantidadeCarrinho.value > 1 ? "itens" : "item"
         } ao carrinho`,
         timeout: 1000,
       });
-    }).catch(() => {
+    })
+    .catch(() => {
       $q.notify({
         icon: "warning",
         color: "negative",
         message: `Não foi possível adicionar o item ao carrinho`,
-        timeout: 1000
-    })});
+        timeout: 1000,
+      });
+    });
 }
 </script>
