@@ -50,6 +50,16 @@ const routes = [{
             redirectIfLoggedIn: false,
         },
     },
+    {
+        path: "/efetuar-compra",
+        name: "Efetuar Compra",
+        component: () =>
+            import ("../views/ConfirmarCompra.vue"),
+        meta: {
+            requiresAuth: false,
+            redirectIfLoggedIn: false,
+        },
+    },
 ];
 
 const router = createRouter({
