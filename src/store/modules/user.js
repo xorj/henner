@@ -94,6 +94,19 @@ export default {
             } catch (error) {
                 throw error;
             }
+        },
+        async removerItemDoCarrinho({ commit }, payload) {
+            try {
+                const token = localStorage.getItem("token");
+                const { item_id } = payload;
+                console.log(payload);
+                const response = await cartServices.removeProductFromCart({ token, item_id });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+
+
         }
     },
 };

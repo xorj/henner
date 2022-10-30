@@ -9,15 +9,17 @@ async function getCart(options) {
         },
     });
     if (response.data) {
-        const produtos = await Promise.all(response.data.map(async(item) => {
-            const produto = await productsServices.getProduct({
-                id: item.produto
-            });
-            return {
-                ...item,
-                produto: produto
-            }
-        }));
+        const produtos = await Promise.all(
+            response.data.map(async(item) => {
+                const produto = await productsServices.getProduct({
+                    id: item.produto,
+                });
+                return {
+                    ...item,
+                    produto: produto,
+                };
+            })
+        );
         return produtos;
     }
     return response.data;
@@ -38,7 +40,29 @@ async function addProductToCart(options) {
     return response.data;
 }
 
+async function removeProductFromCart(options) {
+    const { token, item_id } = options;
+    const response = await axios.delete(`/item-carrinho/${item_id}/`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+}
+
+async function removeAllProductsFromCart(options) {
+    const { token } = options;
+    const response = await axios.delete("/item-carrinho/", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+}
+
 export default {
     getCart,
-    addProductToCart
+    addProductToCart,
+    removeProductFromCart,
+
 };

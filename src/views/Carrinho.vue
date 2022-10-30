@@ -1,7 +1,7 @@
 <template>
   <div v-if="loading" class="flex justify-center w-full mt-12">
-        <q-spinner size="5em" :thickness="5" color="primary" />
-      </div>
+    <q-spinner size="5em" :thickness="5" color="primary" />
+  </div>
   <main v-else class="grid grid-cols-12 mx-20 my-12 gap-4">
     <div class="col-span-12">
       <h4 class="uppercase text-2xl font-semibold">MEU CARRINHO</h4>
@@ -9,22 +9,43 @@
         Remover todos os itens do carrinho
       </p>
     </div>
-    <div class="col-span-8 flex flex-column">
-      <q-card
-        v-for="item in itemsCarrinho"
-        class="w-full mb-4"
-        flat
-        bordered
-      >
+    <div v-if="!itemsCarrinho.length" class="col-span-8 flex flex-column">
+      <h3>Você não possui nenhum item no carrinho.</h3>
+    </div>
+    <div v-else class="col-span-8 flex flex-column">
+      <q-card v-for="item in itemsCarrinho" class="w-full mb-4" flat bordered>
         <q-card-section horizontal>
-          <q-img class="col-3" :src="item.produto.thumbnail" :ratio="1/2" style="height: 150px"/>
+          <q-img
+            class="col-3"
+            :src="item.produto.thumbnail"
+            :ratio="1 / 2"
+            style="height: 150px"
+          />
           <q-card-section class="col-5">
             <div class="flex items-center mb-2">
-              <p class="text-terceary font-bold mr-2">{{ item.produto.nome }}</p>
-              <p class="text-primary font-semibold">R$ {{ item.produto.preco }}</p>
+              <p class="text-terceary font-bold mr-2">
+                {{ item.produto.nome }}
+              </p>
+              <p class="text-primary font-semibold">
+                R$ {{ item.produto.preco }}
+              </p>
             </div>
             <div class="flex items-center">
-              <p :class="{'w-full': true, 'mb-3': true, 'font-bold': true, 'text-secondary':  (item.produto.estoque - item.quantidade >= 0), 'text-negative': (item.produto.estoque - item.quantidade < 0)}">{{item.produto.estoque - item.quantidade >= 0 ? 'Em estoque' : 'Sem estoque'}}</p>
+              <p
+                :class="{
+                  'w-full': true,
+                  'mb-3': true,
+                  'font-bold': true,
+                  'text-secondary': item.produto.estoque - item.quantidade >= 0,
+                  'text-negative': item.produto.estoque - item.quantidade < 0,
+                }"
+              >
+                {{
+                  item.produto.estoque - item.quantidade >= 0
+                    ? "Em estoque"
+                    : "Sem estoque"
+                }}
+              </p>
               <p class="mr-2 font-regular">Quantidade</p>
               <q-select
                 class="w-24"
@@ -39,6 +60,7 @@
           <q-card-section class="flex content-end col-4">
             <p
               class="underline text-terceary text-sm cursor-pointer w-full text-end"
+              @click="removerItemCarrinho(item.id)"
             >
               Remover do carrinho
             </p>
@@ -50,12 +72,13 @@
       <div class="mb-3">
         <p class="text-lg">
           Valor total do pedido:
-          <span class="text-primary font-bold">R$ {{valorTotal}}</span>
+          <span class="text-primary font-bold">R$ {{ valorTotal }}</span>
         </p>
       </div>
       <div class="mb-3">
         <p class="text-base">
-          Número de items: <span class="text-primary font-bold">{{numItems}}</span>
+          Número de items:
+          <span class="text-primary font-bold">{{ numItems }}</span>
         </p>
       </div>
       <q-btn icon="shopping_cart" color="primary" class="w-full h-10">
@@ -71,6 +94,7 @@ import { useStore } from "vuex";
 const store = useStore();
 
 let itemsCarrinho = ref([]);
+let idCarrinho = ref(-1);
 let loading = ref(true);
 
 function getItemOptions(disponivel) {
@@ -99,10 +123,26 @@ let numItems = computed(() => {
   return total;
 });
 
+const removerItemCarrinho = async (item_id) => {
+  await store.dispatch("removerItemDoCarrinho", { item_id });
+  updateCarrinho();
+};
 
-onMounted(async () => {
+const updateCarrinho = async () => {
   loading.value = true;
   itemsCarrinho.value = await store.dispatch("pegarCarrinhoUsuario");
+  console.log(itemsCarrinho.value);
+  if (itemsCarrinho.length) {
+    idCarrinho.value = itemsCarrinho.value[0].carrinho_id;
+    podeRemoverTodos = false;
+  } else {
+    podeRemoverTodos = false;
+
+  }
   loading.value = false;
+};
+
+onMounted(async () => {
+  await updateCarrinho();
 });
 </script>
