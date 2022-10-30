@@ -25,7 +25,7 @@
     <q-list>
       <q-item clickable v-close-popup>
         <router-link
-          to="/"
+          to="/editar-perfil"
           class="text-dark flex items-center justify-center px-4 h-full w-full"
         >
           <q-item-label>
@@ -81,6 +81,13 @@ const logout = () => {
 
   router.push({ name: "Login" });
 };
+
+const goToEditarInformacoes = () => {
+  router.push({ path: "/editar-informacoes" });
+  console.log("teste")
+};
+
+
 </script>
 <style>
 .menu-top-margin {

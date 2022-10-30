@@ -56,7 +56,17 @@ const routes = [{
         component: () =>
             import ("../views/ConfirmarCompra.vue"),
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
+            redirectIfLoggedIn: false,
+        },
+    },
+    {
+        path: "/editar-perfil",
+        name: "Editar Perfil",
+        component: () =>
+            import ("../views/EditarPerfil.vue"),
+        meta: {
+            requiresAuth: true,
             redirectIfLoggedIn: false,
         },
     },
