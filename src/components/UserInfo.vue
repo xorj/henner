@@ -82,12 +82,6 @@ const logout = () => {
   router.push({ name: "Login" });
 };
 
-const goToEditarInformacoes = () => {
-  router.push({ path: "/editar-informacoes" });
-  console.log("teste")
-};
-
-
 </script>
 <style>
 .menu-top-margin {
