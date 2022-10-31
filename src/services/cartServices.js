@@ -51,8 +51,8 @@ async function removeProductFromCart(options) {
 }
 
 async function removeAllProductsFromCart(options) {
-    const { token } = options;
-    const response = await axios.delete("/item-carrinho/", {
+    const { token, carrinho_id } = options;
+    const response = await axios.patch(`/item-carrinho/${carrinho_id}/destroy_all/`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
@@ -60,9 +60,24 @@ async function removeAllProductsFromCart(options) {
     return response.data;
 }
 
+async function changeProductQuantity(options) {
+    const { token, item_id, quantidade } = options;
+    const response = await axios.patch(`/item-carrinho/${item_id}/`, {
+        quantidade: quantidade,
+    }, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+
+}
+
 export default {
     getCart,
     addProductToCart,
     removeProductFromCart,
+    removeAllProductsFromCart,
+    changeProductQuantity,
 
 };

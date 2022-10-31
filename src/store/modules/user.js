@@ -99,13 +99,32 @@ export default {
             try {
                 const token = localStorage.getItem("token");
                 const { item_id } = payload;
-                console.log(payload);
                 const response = await cartServices.removeProductFromCart({ token, item_id });
                 return response;
             } catch (error) {
                 throw error;
             }
+        },
+        async removerTodosItensDoCarrinho({ commit }, payload) {
+            try {
+                const token = localStorage.getItem("token");
+                const { carrinho_id } = payload;
+                const response = await cartServices.removeAllProductsFromCart({ token, carrinho_id });
+                return response;
+            } catch (error) {
+                throw error;
+            }
 
+        },
+        async mudarQuantidadeCarrinho({ commit }, payload) {
+            try {
+                const token = localStorage.getItem("token");
+                const { item_id, quantidade } = payload;
+                const response = await cartServices.changeProductQuantity({ token, item_id, quantidade });
+                return response;
+            } catch (error) {
+                throw error;
+            }
 
         }
     },

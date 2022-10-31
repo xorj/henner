@@ -5,15 +5,19 @@
   <main v-else class="grid grid-cols-12 mx-20 my-12 gap-4">
     <div class="col-span-12">
       <h4 class="uppercase text-2xl font-semibold">MEU CARRINHO</h4>
-      <p class="underline text-terceary text-sm cursor-pointer">
+      <p
+        v-if="podeRemoverTodos"
+        class="underline text-terceary text-sm cursor-pointer"
+        @click="removerTodosItems"
+      >
         Remover todos os itens do carrinho
       </p>
     </div>
-    <div v-if="!itemsCarrinho.length" class="col-span-8 flex flex-column">
+    <div v-if="!itensCarrinho.length" class="col-span-8 flex flex-column">
       <h3>Você não possui nenhum item no carrinho.</h3>
     </div>
     <div v-else class="col-span-8 flex flex-column">
-      <q-card v-for="item in itemsCarrinho" class="w-full mb-4" flat bordered>
+      <q-card v-for="item in itensCarrinho" class="w-full mb-4" flat bordered>
         <q-card-section horizontal>
           <q-img
             class="col-3"
@@ -53,6 +57,7 @@
                 outlined
                 dropdown-icon="expand_more"
                 dense
+                @update:model-value="mudarQuantidadeCarrinho(item.id, item.quantidade)"
                 :options="getItemOptions(item.produto.estoque)"
               />
             </div>
@@ -90,10 +95,12 @@
 <script setup>
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
+import { useQuasar } from "quasar";
 
 const store = useStore();
+const $q = useQuasar();
 
-let itemsCarrinho = ref([]);
+let itensCarrinho = ref([]);
 let idCarrinho = ref(-1);
 let loading = ref(true);
 
@@ -108,7 +115,7 @@ function getItemOptions(disponivel) {
 
 let valorTotal = computed(() => {
   let total = 0;
-  itemsCarrinho.value.forEach((item) => {
+  itensCarrinho.value.forEach((item) => {
     total += item.produto.preco * item.quantidade;
   });
 
@@ -117,27 +124,53 @@ let valorTotal = computed(() => {
 
 let numItems = computed(() => {
   let total = 0;
-  itemsCarrinho.value.forEach((item) => {
+  itensCarrinho.value.forEach((item) => {
     total += item.quantidade;
   });
   return total;
 });
 
+let podeRemoverTodos = computed(() => {
+  return itensCarrinho.value.length;
+});
+
+const mudarQuantidadeCarrinho = async (item_id, quantidade) => {
+  await store.dispatch("mudarQuantidadeCarrinho", { item_id, quantidade });
+  $q.notify({
+    icon: "remove_shopping_cart",
+    color: "positive",
+    message: `Quantidade alterada para ${quantidade}`,
+    timeout: 1000,
+  });
+  updateCarrinho();
+};
+
 const removerItemCarrinho = async (item_id) => {
   await store.dispatch("removerItemDoCarrinho", { item_id });
+  $q.notify({
+    icon: "remove_shopping_cart",
+    color: "positive",
+    message: "Item removido do carrinho",
+    timeout: 1000,
+  });
+  updateCarrinho();
+};
+
+const removerTodosItems = async () => {
+  await store.dispatch("removerTodosItensDoCarrinho", {
+    carrinho_id: idCarrinho.value,
+  });
   updateCarrinho();
 };
 
 const updateCarrinho = async () => {
   loading.value = true;
-  itemsCarrinho.value = await store.dispatch("pegarCarrinhoUsuario");
-  console.log(itemsCarrinho.value);
-  if (itemsCarrinho.length) {
-    idCarrinho.value = itemsCarrinho.value[0].carrinho_id;
-    podeRemoverTodos = false;
+  itensCarrinho.value = await store.dispatch("pegarCarrinhoUsuario");
+  if (itensCarrinho.value.length) {
+    idCarrinho.value = itensCarrinho.value[0].carrinho;
+    podeRemoverTodos = true;
   } else {
     podeRemoverTodos = false;
-
   }
   loading.value = false;
 };
