@@ -193,7 +193,6 @@ let enderecoInicial = ref({
 });
 
 const setEndereco = (endereco) => {
-  console.log(endereco);
   enderecoInicial = {
     rua: endereco.logradouro,
     numero: "",
@@ -202,8 +201,6 @@ const setEndereco = (endereco) => {
     uf: endereco.uf,
     cep: endereco.cep,
   };
-  console.log(enderecoInicial);
-  console.log(dataSchemaEndereco);
 };
 
 const onCepChange = async (cep) => {
