@@ -19,8 +19,20 @@ async function getCategories() {
     return response.data;
 }
 
+async function postOrder(options) {
+    const { token, order } = options;
+    console.log(order);
+    const response = await axios.post("/pedido/", order, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    response.data;
+}
+
 export default {
     getProducts,
     getProduct,
-    getCategories
+    getCategories,
+    postOrder
 };

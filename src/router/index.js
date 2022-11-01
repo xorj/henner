@@ -70,6 +70,16 @@ const routes = [{
             redirectIfLoggedIn: false,
         },
     },
+    {
+        path: "/pedidos",
+        name: "Pedidos",
+        component: () =>
+            import ("../views/Pedidos.vue"),
+        meta: {
+            requiresAuth: true,
+            redirectIfLoggedIn: false,
+        },
+    },
 ];
 
 const router = createRouter({

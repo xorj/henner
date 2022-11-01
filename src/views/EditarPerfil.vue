@@ -15,7 +15,6 @@
               type="text"
               class="w-full"
               mask="#####-###"
-              unmasked-value
               @update:model-value="onCepChange(endereco.cep)"
             />
           </div>
@@ -104,7 +103,6 @@
               type="text"
               class="w-full"
               mask="#### #### #### ####"
-              unmasked-value
             />
           </div>
           <div class="col-span-12 md:col-span-6">

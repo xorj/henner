@@ -86,7 +86,7 @@
           <span class="text-primary font-bold">{{ numItems }}</span>
         </p>
       </div>
-      <q-btn icon="shopping_cart" color="primary" class="w-full h-10">
+      <q-btn icon="shopping_cart" color="primary" class="w-full h-10" @click="efetuarPedido" :disabled="!itensCarrinho.length">
         EFETUAR PEDIDO
       </q-btn>
     </div>
@@ -96,7 +96,9 @@
 import { ref, onMounted, computed } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 const store = useStore();
 const $q = useQuasar();
 
@@ -178,4 +180,8 @@ const updateCarrinho = async () => {
 onMounted(async () => {
   await updateCarrinho();
 });
+
+const efetuarPedido = () => {
+  router.push({name: "Efetuar Pedido"});
+}
 </script>

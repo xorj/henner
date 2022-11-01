@@ -62,7 +62,7 @@ export default {
                 const filtros = {
                     search: payload.search || "",
                     categoria: payload.categoria || "",
-                }
+                };
                 const response = await productServices.getProducts(filtros);
                 return response;
             } catch (error) {
@@ -90,7 +90,11 @@ export default {
             try {
                 const token = localStorage.getItem("token");
                 const { produto_id, quantidade } = payload;
-                const response = await cartServices.addProductToCart({ token, produto_id, quantidade });
+                const response = await cartServices.addProductToCart({
+                    token,
+                    produto_id,
+                    quantidade,
+                });
                 return response;
             } catch (error) {
                 throw error;
@@ -100,7 +104,10 @@ export default {
             try {
                 const token = localStorage.getItem("token");
                 const { item_id } = payload;
-                const response = await cartServices.removeProductFromCart({ token, item_id });
+                const response = await cartServices.removeProductFromCart({
+                    token,
+                    item_id,
+                });
                 return response;
             } catch (error) {
                 throw error;
@@ -110,23 +117,28 @@ export default {
             try {
                 const token = localStorage.getItem("token");
                 const { carrinho_id } = payload;
-                const response = await cartServices.removeAllProductsFromCart({ token, carrinho_id });
+                const response = await cartServices.removeAllProductsFromCart({
+                    token,
+                    carrinho_id,
+                });
                 return response;
             } catch (error) {
                 throw error;
             }
-
         },
         async mudarQuantidadeCarrinho({ commit }, payload) {
             try {
                 const token = localStorage.getItem("token");
                 const { item_id, quantidade } = payload;
-                const response = await cartServices.changeProductQuantity({ token, item_id, quantidade });
+                const response = await cartServices.changeProductQuantity({
+                    token,
+                    item_id,
+                    quantidade,
+                });
                 return response;
             } catch (error) {
                 throw error;
             }
-
         },
         async pegarEnderecoUsuario({ commit }) {
             try {
@@ -151,7 +163,11 @@ export default {
                 const { id_endereco, endereco } = payload;
 
                 const token = localStorage.getItem("token");
-                const response = await infoServices.patchUserAddress({ token, id_endereco, endereco });
+                const response = await infoServices.patchUserAddress({
+                    token,
+                    id_endereco,
+                    endereco,
+                });
                 return response;
             } catch (error) {
                 throw error;
@@ -161,7 +177,11 @@ export default {
             try {
                 const { id_cartao, cartao } = payload;
                 const token = localStorage.getItem("token");
-                const response = await infoServices.patchUserCard({ token, id_cartao, cartao });
+                const response = await infoServices.patchUserCard({
+                    token,
+                    id_cartao,
+                    cartao,
+                });
                 return response;
             } catch (error) {
                 throw error;
@@ -175,7 +195,19 @@ export default {
             } catch (error) {
                 throw error;
             }
-        }
-
+        },
+        async fazerPedido({ commit }, payload) {
+            try {
+                const { forma_de_pagamento, endereco } = payload;
+                const token = localStorage.getItem("token");
+                const response = await productServices.postOrder({
+                    token,
+                    order: { forma_de_pagamento, endereco },
+                });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
     },
 };
