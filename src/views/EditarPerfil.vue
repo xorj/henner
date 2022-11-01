@@ -194,7 +194,7 @@ const setEndereco = (enderecoResponse) => {
 };
 
 const onCepChange = async (cep) => {
-  if (cep.length === 8) {
+  if (cep.length === 9) {
     ibgeServices.getEnderecoByCEP({ cep }).then((response) => {
       if (response.erro) {
         $q.notify({
