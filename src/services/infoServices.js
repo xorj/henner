@@ -31,7 +31,6 @@ async function patchUserCard(options) {
 
 async function patchUserAddress(options) {
     const { token, id_endereco, endereco } = options;
-    console.log(token, id_endereco, endereco);
     const response = await axios.patch(`/endereco/${id_endereco}/`, endereco, {
         headers: {
             Authorization: `Bearer ${token}`,

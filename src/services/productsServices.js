@@ -21,7 +21,6 @@ async function getCategories() {
 
 async function postOrder(options) {
     const { token, order } = options;
-    console.log(order);
     const response = await axios.post("/pedido/", order, {
         headers: {
             Authorization: `Bearer ${token}`,

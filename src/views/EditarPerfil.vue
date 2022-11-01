@@ -271,7 +271,6 @@ const onClickDesativarConta = () => {
       successDesativacao();
     })
     .catch((error) => {
-      console.log(error);
       $q.notify({
         type: "negative",
         message: "Houve um erro ao desativar a conta",

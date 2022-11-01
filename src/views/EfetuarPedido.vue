@@ -16,11 +16,11 @@
     >
       Por favor, adicione itens ao carrinho para finalizar a compra
     </p>
-    <q-stepper v-else v-model="step" vertical color="primary" animated>
+    <q-stepper v-if="validarCartao && validarEndereco" v-model="step" vertical color="primary" animated>
       <q-step :name="1" title="Endereço" :icon="step == 1 ? 'home' : 'done'">
         <div class="flex justify-end">
           <div class="text-terceary font-regular w-full">
-            <p>Nome do Destinatário</p>
+            <p>{{userName}}</p>
           </div>
           <div class="text-terceary font-regular w-full">
             <p>{{ endereco.rua }}, {{ endereco.numero }}</p>
@@ -262,6 +262,8 @@ const calcQtdCarrinho = () => {
   });
   quantidadeItens.value = total;
 };
+
+const userName = computed(() => store.state.user.user_info.primeiro_nome + " " + store.state.user.user_info.ultimo_nome);
 
 
 onMounted(async () => {

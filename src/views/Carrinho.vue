@@ -57,7 +57,9 @@
                 outlined
                 dropdown-icon="expand_more"
                 dense
-                @update:model-value="mudarQuantidadeCarrinho(item.id, item.quantidade)"
+                @update:model-value="
+                  mudarQuantidadeCarrinho(item.id, item.quantidade)
+                "
                 :options="getItemOptions(item.produto.estoque)"
               />
             </div>
@@ -86,7 +88,13 @@
           <span class="text-primary font-bold">{{ numItems }}</span>
         </p>
       </div>
-      <q-btn icon="shopping_cart" color="primary" class="w-full h-10" @click="efetuarPedido" :disabled="!itensCarrinho.length">
+      <q-btn
+        icon="shopping_cart"
+        color="primary"
+        class="w-full h-10"
+        @click="efetuarPedido"
+        :disabled="!itensCarrinho.length"
+      >
         EFETUAR PEDIDO
       </q-btn>
     </div>
@@ -159,9 +167,7 @@ const removerItemCarrinho = async (item_id) => {
 };
 
 const removerTodosItems = async () => {
-  await store.dispatch("removerTodosItensDoCarrinho", {
-    carrinho_id: idCarrinho.value,
-  });
+  await store.dispatch("removerTodosItensDoCarrinho");
   updateCarrinho();
 };
 
@@ -182,6 +188,6 @@ onMounted(async () => {
 });
 
 const efetuarPedido = () => {
-  router.push({name: "Efetuar Pedido"});
-}
+  router.push({ name: "Efetuar Pedido" });
+};
 </script>

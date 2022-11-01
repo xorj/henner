@@ -19,7 +19,7 @@
         />
       </div>
       <div class="flex items-center">
-        <p class="text-primary mb-0 text-base">Nome do Usuário</p>
+        <p class="text-primary mb-0 text-base">{{userName}}</p>
       </div>
     </template>
     <q-list>
@@ -78,7 +78,7 @@ const $q = useQuasar();
 const router = useRouter();
 const store = useStore();
 const userLogged = computed(() => !!store.state.user.token);
-
+const userName = computed(() => store.state.user.user_info.primeiro_nome);
 const logout = () => {
   store.dispatch("logout").then(() => {
     $q.notify({

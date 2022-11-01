@@ -75,7 +75,6 @@ import * as yup from "yup";
 import { Form, Field } from "vee-validate";
 import { useRouter } from "vue-router";
 
-
 const router = useRouter();
 
 const $q = useQuasar();
@@ -94,14 +93,16 @@ const dataSchemaLogin = yup.object({
 function onSubmitLogin(values) {
   store
     .dispatch("login", values)
-    .then(() => {
+    .then(async () => {
       $q.notify({
         icon: "check",
         color: "positive",
         message: "Login realizado com sucesso!",
         timeout: 1000,
       });
-      router.push({name: "Produtos"});
+      await store.dispatch("pegarInfoUser");
+
+      router.push({ name: "Produtos" });
     })
     .catch((error) => {
       let errorData = error.response?.data;

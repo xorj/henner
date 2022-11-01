@@ -51,8 +51,8 @@ async function removeProductFromCart(options) {
 }
 
 async function removeAllProductsFromCart(options) {
-    const { token, carrinho_id } = options;
-    const response = await axios.patch(`/item-carrinho/${carrinho_id}/destroy_all/`, {}, {
+    const { token } = options;
+    const response = await axios.post(`/carrinho/clear/`, {}, {
         headers: {
             Authorization: `Bearer ${token}`,
         },

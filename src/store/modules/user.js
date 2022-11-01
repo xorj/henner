@@ -116,10 +116,8 @@ export default {
         async removerTodosItensDoCarrinho({ commit }, payload) {
             try {
                 const token = localStorage.getItem("token");
-                const { carrinho_id } = payload;
                 const response = await cartServices.removeAllProductsFromCart({
                     token,
-                    carrinho_id,
                 });
                 return response;
             } catch (error) {
@@ -222,11 +220,25 @@ export default {
             try {
                 const { id_pedido } = payload;
                 const token = localStorage.getItem("token");
-                const response = await productServices.cancelOrder({ token, id_pedido });
+                const response = await productServices.cancelOrder({
+                    token,
+                    id_pedido,
+                });
                 return response;
             } catch (error) {
                 throw error;
             }
-        }
+        },
+        async pegarInfoUser({ commit }) {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await authServices.getUserByToken({ token });
+                commit("SET_INFO", response);
+
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
     },
 };
