@@ -24,6 +24,16 @@
     </template>
     <q-list>
       <q-item clickable v-close-popup>
+        <q-btn
+          flat
+          no-caps
+          color="primary"
+          class="text-capitalize w-full text-right"
+          label="Meus pedidos"
+          @click="goToPedidos"
+        />
+      </q-item>
+      <q-item clickable v-close-popup>
         <router-link
           to="/editar-perfil"
           class="text-dark flex items-center justify-center px-4 h-full w-full"
@@ -81,6 +91,11 @@ const logout = () => {
 
   router.push({ name: "Login" });
 };
+
+const goToPedidos = () => {
+  router.push({ name: "Pedidos" });
+};
+
 
 </script>
 <style>
