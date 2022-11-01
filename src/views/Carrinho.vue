@@ -87,7 +87,7 @@
         </p>
       </div>
       <q-btn icon="shopping_cart" color="primary" class="w-full h-10">
-        FECHAR PEDIDO
+        EFETUAR PEDIDO
       </q-btn>
     </div>
   </main>

@@ -51,10 +51,10 @@ const routes = [{
         },
     },
     {
-        path: "/efetuar-compra",
-        name: "Efetuar Compra",
+        path: "/efetuar-pedido",
+        name: "Efetuar Pedido",
         component: () =>
-            import ("../views/ConfirmarCompra.vue"),
+            import ("../views/EfetuarPedido.vue"),
         meta: {
             requiresAuth: true,
             redirectIfLoggedIn: false,
