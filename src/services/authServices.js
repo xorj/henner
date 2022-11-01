@@ -25,7 +25,18 @@ async function postUser(options) {
     return response.data;
 }
 
+async function deactivateUser(options) {
+    const { token } = options;
+    const response = await axios.post(`/cliente/deactivate/`, {}, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+}
+
 export default {
     postLogin,
     postUser,
+    deactivateUser
 };

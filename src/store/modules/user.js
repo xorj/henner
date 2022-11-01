@@ -1,6 +1,7 @@
 import authServices from "@/services/authServices";
 import productServices from "@/services/productsServices";
 import cartServices from "@/services/cartServices";
+import infoServices from "../../services/infoServices";
 
 export default {
     state: () => ({
@@ -126,6 +127,55 @@ export default {
                 throw error;
             }
 
+        },
+        async pegarEnderecoUsuario({ commit }) {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await infoServices.getUserAddress({ token });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async pegarCartaoUsuario({ commit }) {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await infoServices.getUserCard({ token });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async atualizarEnderecoUsuario({ commit }, payload) {
+            try {
+                const { id_endereco, endereco } = payload;
+
+                const token = localStorage.getItem("token");
+                const response = await infoServices.patchUserAddress({ token, id_endereco, endereco });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async atualizarCartaoUsuario({ commit }, payload) {
+            try {
+                const { id_cartao, cartao } = payload;
+                const token = localStorage.getItem("token");
+                const response = await infoServices.patchUserCard({ token, id_cartao, cartao });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async desativarUsuario({ commit }, payload) {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await authServices.deactivateUser({ token });
+                return response;
+            } catch (error) {
+                throw error;
+            }
         }
+
     },
 };

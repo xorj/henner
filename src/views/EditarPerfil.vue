@@ -3,110 +3,72 @@
     <h2 class="font-bold text-3xl mb-4">EDITAR PERFIL</h2>
     <div class="py-4 px-5 rounded border">
       <h3 class="font-bold uppercase">Editar Endereço</h3>
-      <Form
-        :validation-schema="dataSchemaCadastro"
-        @submit="onSubmit"
-        :initial-values="{ enderecoInicial }"
-      >
+      <Form @submit="onSubmitEndereco">
         <div class="grid grid-cols-12 gap-4 w-full">
-          <div class="col-span-6">
-            <Field name="cep" v-slot="{ errorMessage, value, field }">
-              <q-input
-                autofocus
-                type="text"
-                label="CEP"
-                outlined
-                mask="#####-###"
-                unmasked-value
-                v-bind="field"
-                :model-value="value"
-                :error="!!errorMessage"
-                :error-message="errorMessage"
-                @change="onCepChange(value)"
-              >
-              </q-input>
-            </Field>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="endereco.cep"
+              outlined
+              label="CEP"
+              name="cep"
+              id="cep"
+              type="text"
+              class="w-full"
+              mask="#####-###"
+              unmasked-value
+              @update:model-value="onCepChange(endereco.cep)"
+            />
           </div>
-          <div class="col-span-6">
-            <Field name="estado" v-slot="{ errorMessage, value, field }">
-              <q-input
-                autofocus
-                type="text"
-                label="UF"
-                outlined
-                mask="AA"
-                unmasked-value
-                v-bind="field"
-                :model-value="value"
-                :error="!!errorMessage"
-                :error-message="errorMessage"
-              >
-              </q-input>
-            </Field>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="endereco.estado"
+              outlined
+              label="Estado (UF)"
+              id="uf"
+              type="text"
+              class="w-full"
+              mask="AA"
+            />
           </div>
-          <div class="col-span-6">
-            <Field name="cidade" v-slot="{ errorMessage, value, field }">
-              <q-input
-                autofocus
-                type="text"
-                label="Cidade"
-                outlined
-                unmasked-value
-                v-bind="field"
-                :model-value="value"
-                :error="!!errorMessage"
-                :error-message="errorMessage"
-              >
-              </q-input>
-            </Field>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="endereco.cidade"
+              outlined
+              label="Cidade"
+              id="cidade"
+              type="text"
+              class="w-full"
+            />
           </div>
-          <div class="col-span-6">
-            <Field name="bairro" v-slot="{ errorMessage, value, field }">
-              <q-input
-                autofocus
-                type="text"
-                label="Bairro"
-                outlined
-                unmasked-value
-                v-bind="field"
-                :model-value="value"
-                :error="!!errorMessage"
-                :error-message="errorMessage"
-              >
-              </q-input>
-            </Field>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="endereco.bairro"
+              outlined
+              label="Bairro"
+              id="bairro"
+              type="text"
+              class="w-full"
+            />
           </div>
-          <div class="col-span-6">
-            <Field name="rua" v-slot="{ errorMessage, value, field }">
-              <q-input
-                autofocus
-                type="text"
-                label="Rua"
-                outlined
-                unmasked-value
-                v-bind="field"
-                :model-value="value"
-                :error="!!errorMessage"
-                :error-message="errorMessage"
-              >
-              </q-input>
-            </Field>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="endereco.rua"
+              outlined
+              label="Rua"
+              id="rua"
+              type="text"
+              class="w-full"
+            />
           </div>
-          <div class="col-span-6">
-            <Field name="numero" v-slot="{ errorMessage, value, field }">
-              <q-input
-                autofocus
-                type="text"
-                label="Número"
-                outlined
-                unmasked-value
-                v-bind="field"
-                :model-value="value"
-                :error="!!errorMessage"
-                :error-message="errorMessage"
-              >
-              </q-input>
-            </Field>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="endereco.numero"
+              outlined
+              label="Número"
+              id="numero"
+              type="text"
+              class="w-full"
+            />
           </div>
           <div class="col-span-12 flex items-end flex-col">
             <q-btn
@@ -119,95 +81,215 @@
         </div>
       </Form>
     </div>
+    <div class="py-4 px-5 mt-4 rounded border">
+      <h3 class="font-bold uppercase">Editar Cartão</h3>
+      <Form @submit="onSubmitCartao">
+        <div class="grid grid-cols-12 gap-4 w-full">
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="cartao.nome"
+              outlined
+              label="Nome no cartão"
+              name="Nome no cartão"
+              type="text"
+              class="w-full"
+            />
+          </div>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="cartao.numero"
+              outlined
+              label="Número do cartão"
+              id="numero_cartao"
+              type="text"
+              class="w-full"
+              mask="#### #### #### ####"
+              unmasked-value
+            />
+          </div>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="cartao.codigo"
+              outlined
+              label="Código de segurança (CVV)"
+              id="cvv"
+              type="text"
+              class="w-full"
+              mask="###"
+            />
+          </div>
+          <div class="col-span-12 md:col-span-6">
+            <q-input
+              v-model="cartao.validade"
+              outlined
+              label="Validade"
+              id="Validade"
+              type="text"
+              class="w-full"
+              mask="##/##"
+            />
+          </div>
+          <div class="col-span-12 flex items-end flex-col">
+            <q-btn
+              type="submit"
+              color="primary"
+              label="Salvar"
+              class="py-2 px-24"
+            />
+          </div>
+        </div>
+      </Form>
+    </div>
+    <div class="py-4 px-5 mt-4 rounded border">
+      <h3 class="font-bold uppercase">DESATIVAR CONTA</h3>
+      <div class="grid grid-cols-12 gap-4 w-full">
+        <div class="col-span-4 flex flex-col">
+          <q-btn
+            @click="onClickDesativarConta"
+            color="negative"
+            label="Desativar conta"
+            class="py-2 px-24"
+          />
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { Field, Form } from "vee-validate";
-import * as yup from "yup";
+import { ref, onMounted } from "vue";
+import { Form } from "vee-validate";
 import ibgeServices from "@/services/ibgeServices";
+import { useQuasar } from "quasar";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
-const dataSchemaEndereco = yup.object({
-  rua: yup
-    .string()
-    .required("Rua é um campo obrigatório")
-    .min(5, "Mínimo de 5 caracteres")
-    .max(50, "Máximo de 50 caracteres"),
-  numero: yup
-    .string()
-    .required("Número é um campo obrigatório")
-    .min(1, "Mínimo de 1 caracter")
-    .max(10, "Máximo de 10 caracteres"),
-  bairro: yup
-    .string()
-    .required("Bairro é um campo obrigatório")
-    .min(3, "Mínimo de 5 caracteres")
-    .max(50, "Máximo de 50 caracteres"),
-  cidade: yup
-    .string()
-    .required("Cidade é um campo obrigatório")
-    .min(3, "Mínimo de 3 caracteres")
-    .max(50, "Máximo de 50 caracteres"),
-  uf: yup
-    .string()
-    .required("UF é um campo obrigatório")
-    .min(2, "Mínimo de 2 caracteres")
-    .max(2, "Máximo de 2 caracteres"),
-  cep: yup
-    .string()
-    .required("CEP é um campo obrigatório")
-    .matches("/^[0-9]{5}-[0-9]{3}$/", "CEP inválido"),
-});
+const $q = useQuasar();
+const store = useStore();
+const router = useRouter();
 
-const dataSchemaCartao = yup.object({
-  numero: yup
-    .string()
-    .required("Número do cartão é um campo obrigatório")
-    .min(16, "Mínimo de 16 caracteres")
-    .max(16, "Máximo de 16 caracteres"),
-  nome: yup
-    .string()
-    .required("Escolha um nome para o cartão")
-    .min(3, "Mínimo de 3 caracteres")
-    .max(50, "Máximo de 50 caracteres"),
-  validade: yup
-    .string()
-    .required("Validade é um campo obrigatório")
-    .min(5, "Mínimo de 5 caracteres")
-    .max(5, "Máximo de 5 caracteres"),
-  codigo: yup
-    .string()
-    .required("Código de Verificação (CCV) é um campo obrigatório")
-    .min(3, "Mínimo de 3 caracteres")
-    .max(3, "Máximo de 3 caracteres"),
-});
-
-let enderecoInicial = ref({
+let endereco = ref({
   rua: "",
   numero: "",
   bairro: "",
   cidade: "",
-  uf: "",
+  estado: "",
   cep: "",
 });
 
-const setEndereco = (endereco) => {
-  enderecoInicial = {
-    rua: endereco.logradouro,
+let cartao = ref({
+  numero: "",
+  nome: "",
+  validade: "",
+  codigo: "",
+});
+
+const setEndereco = (enderecoResponse) => {
+  endereco.value = {
+    ...endereco.value,
+    rua: enderecoResponse.logradouro,
     numero: "",
-    bairro: endereco.bairro,
-    cidade: endereco.localidade,
-    uf: endereco.uf,
-    cep: endereco.cep,
+    bairro: enderecoResponse.bairro,
+    cidade: enderecoResponse.localidade,
+    estado: enderecoResponse.uf,
   };
 };
 
 const onCepChange = async (cep) => {
   if (cep.length === 8) {
     ibgeServices.getEnderecoByCEP({ cep }).then((response) => {
-      setEndereco(response);
+      if (response.erro) {
+        $q.notify({
+          type: "negative",
+          message: "CEP não encontrado",
+        });
+      } else {
+        setEndereco(response);
+      }
     });
   }
+};
+
+onMounted(async () => {
+  const enderecoAtual = await store.dispatch("pegarEnderecoUsuario");
+  const cartaoAtual = await store.dispatch("pegarCartaoUsuario");
+
+  if (enderecoAtual) {
+    endereco.value = enderecoAtual[0];
+  }
+  if (cartaoAtual) {
+    cartao.value = cartaoAtual[0];
+  }
+});
+
+const onSubmitEndereco = () => {
+  store
+    .dispatch("atualizarEnderecoUsuario", {
+      id_endereco: endereco.value.id,
+      endereco: endereco.value,
+    })
+    .then((response) => {
+      $q.notify({
+        type: "positive",
+        message: "Endereço atualizado com sucesso",
+      });
+    })
+    .catch((error) => {
+      $q.notify({
+        type: "negative",
+        message: "Por favor, preencha todos os campos de endereço",
+      });
+    });
+};
+
+const onSubmitCartao = () => {
+  store
+    .dispatch("atualizarCartaoUsuario", {
+      id_cartao: cartao.value.id,
+      cartao: cartao.value,
+    })
+    .then((response) => {
+      $q.notify({
+        type: "positive",
+        message: "Cartão atualizado com sucesso",
+      });
+    })
+    .catch((error) => {
+      $q.notify({
+        type: "negative",
+        message: "Por favor, preencha todos os campos de cartão",
+      });
+    });
+};
+
+const onClickDesativarConta = () => {
+  store
+    .dispatch("desativarUsuario")
+    .then((response) => {
+      $q.notify({
+        type: "positive",
+        message: "Conta desativada com sucesso",
+      });
+      successDesativacao();
+    })
+    .catch((error) => {
+      console.log(error);
+      $q.notify({
+        type: "negative",
+        message: "Houve um erro ao desativar a conta",
+      });
+    });
+};
+
+const successDesativacao = () => {
+  store.dispatch("logout").then(() => {
+    $q.notify({
+      icon: "check",
+      color: "positive",
+      message: "Você foi deslogado por ter desativado sua conta",
+      timeout: 1000,
+    });
+  });
+  router.push({ name: "Login" });
 };
 </script>
