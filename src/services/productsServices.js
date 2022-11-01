@@ -27,12 +27,34 @@ async function postOrder(options) {
             Authorization: `Bearer ${token}`,
         },
     });
-    response.data;
+    return response.data;
+}
+
+async function getOrder(options) {
+    const { token } = options;
+    const response = await axios.get("/pedido/", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
+}
+
+async function cancelOrder(options) {
+    const { token, id_pedido } = options;
+    const response = await axios.post(`/pedido/${id_pedido}/cancel/`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+    return response.data;
 }
 
 export default {
     getProducts,
     getProduct,
     getCategories,
-    postOrder
+    postOrder,
+    getOrder,
+    cancelOrder
 };

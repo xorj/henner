@@ -10,7 +10,7 @@
       Cartão
     </p>
     <p
-      v-if="!itensNoCarrinho"
+      v-if="!quantidadeItens"
       class="underline text-terceary text-sm cursor-pointer"
       @click="goToListarProdutos"
     >

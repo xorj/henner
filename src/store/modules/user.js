@@ -209,5 +209,24 @@ export default {
                 throw error;
             }
         },
+        async pegarPedidosUsuario({ commit }) {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await productServices.getOrder({ token });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        },
+        async cancelarPedido({ commit }, payload) {
+            try {
+                const { id_pedido } = payload;
+                const token = localStorage.getItem("token");
+                const response = await productServices.cancelOrder({ token, id_pedido });
+                return response;
+            } catch (error) {
+                throw error;
+            }
+        }
     },
 };
